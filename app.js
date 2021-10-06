@@ -1,16 +1,12 @@
 const express = require("express");
-const pool = require("./db");
+const monsters = require("./routes/monsters");
 
 const app = express();
 
-app.get("/monsters", (request, response) => {
-  pool.query("SELECT * FROM monsters", (err, res) => {
-    if (err) return console.log(err);
+app.use("/monsters", monsters);
 
-    console.log(res.rows);
-  });
+app.use((err, req, res, next) => {
+  res.json(err);
 });
 
-const port = 3000;
-
-app.listen(port, () => console.log(`Listening on port ${port}`));
+module.exports = app;
